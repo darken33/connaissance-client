@@ -1,0 +1,2 @@
+[console_scripts]
+connaissance-client-mcp = server:main

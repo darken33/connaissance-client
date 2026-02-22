@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: connaissance-client
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: connaissance-client
+    app.kubernetes.io/instance: connaissance-client

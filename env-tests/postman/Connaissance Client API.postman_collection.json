@@ -1,0 +1,1494 @@
+{
+	"info": {
+		"_postman_id": "57ccb59b-fe56-435b-9d6c-023756e2553f",
+		"name": "Connaissance Client API",
+		"description": "Documentation de l'API Connaissance Client\n\nContact Support:\n Name: SQLI\n Email: pbousquet@sqli.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "connaissance-clients",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Accès en lecture à une fiche de connaissance client",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "<API Key>",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+											"description": "(Required) identifiant"
+										}
+									]
+								},
+								"description": "Accès à une fiche de connaissance client via son id\n"
+							},
+							"response": [
+								{
+									"name": "Réponse pour une requête valide (retour d'une fiche de connaissance client)",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"MARIE\",\n  \"nombreEnfants\": 1,\n  \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n  \"ligne2\": \"48 rue bauducheu\"\n}"
+								},
+								{
+									"name": "Invalid Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Unexpected server error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Suppression d'une fiche de connaissance client",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "<API Key>",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+											"description": "(Required) identifiant"
+										}
+									]
+								},
+								"description": "Suppression d'une fiche de connaissance client via son id\n"
+							},
+							"response": [
+								{
+									"name": "Suppression de la fiche effectuée",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid Request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Unexpected server error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Changement d'addresse du client",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "<API Key>",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients/:id/adresse",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients",
+										":id",
+										"adresse"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+											"description": "(Required) identifiant"
+										}
+									]
+								},
+								"description": "Changement d'addresse du client\n"
+							},
+							"response": [
+								{
+									"name": "Réponse pour une requête valide (retour d'une fiche de connaissance client)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/adresse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"adresse"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"MARIE\",\n  \"nombreEnfants\": 1,\n  \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n  \"ligne2\": \"48 rue bauducheu\"\n}"
+								},
+								{
+									"name": "Invalid Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/adresse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"adresse"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/adresse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"adresse"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Unexpected server error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/adresse",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"adresse"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Changement de situation du client",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "<API Key>",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients/:id/situation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients",
+										":id",
+										"situation"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+											"description": "(Required) identifiant"
+										}
+									]
+								},
+								"description": "Changement de situation du client\n"
+							},
+							"response": [
+								{
+									"name": "Réponse pour une requête valide (retour d'une fiche de connaissance client)",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/situation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"situation"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"MARIE\",\n  \"nombreEnfants\": 1,\n  \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n  \"ligne2\": \"48 rue bauducheu\"\n}"
+								},
+								{
+									"name": "Invalid Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/situation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"situation"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/situation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"situation"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								},
+								{
+									"name": "Unexpected server error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/connaissance-clients/:id/situation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"connaissance-clients",
+												":id",
+												"situation"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+													"description": "(Required) identifiant"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Liste des fiches de connaissance client",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "<API Key>",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/connaissance-clients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"connaissance-clients"
+							]
+						},
+						"description": "liste des fiches de connaissance client\n"
+					},
+					"response": [
+						{
+							"name": "Réponse pour une requête valide",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"nom\": \"Test Abc\",\n    \"prenom\": \"Test Abc\",\n    \"ligne1\": \"48 rue bauducheu\",\n    \"codePostal\": \"33800\",\n    \"ville\": \"Test Abc\",\n    \"situationFamilialle\": \"MARIE\",\n    \"nombreEnfants\": 1,\n    \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n    \"ligne2\": \"48 rue bauducheu\"\n  },\n  {\n    \"nom\": \"Test Abc\",\n    \"prenom\": \"Test Abc\",\n    \"ligne1\": \"48 rue bauducheu\",\n    \"codePostal\": \"33800\",\n    \"ville\": \"Test Abc\",\n    \"situationFamilialle\": \"MARIE\",\n    \"nombreEnfants\": 1,\n    \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n    \"ligne2\": \"48 rue bauducheu\"\n  }\n]"
+						},
+						{
+							"name": "Invalid Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": -72553118,\n  \"details\": [\n    \"culpa incididunt ea elit do\",\n    \"dolor velit\"\n  ],\n  \"path\": \"non aute vo\"\n}"
+						},
+						{
+							"name": "Access forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						},
+						{
+							"name": "Access denied",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						},
+						{
+							"name": "Conflict",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Accès en écriture à une fiche de connaissance client",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "<API Key>",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/connaissance-clients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"connaissance-clients"
+							]
+						},
+						"description": "Ecriture d'une fiche de connaissance client (création ou mise à jour).\n"
+					},
+					"response": [
+						{
+							"name": "Réponse pour une requête valide (création ou mise à jour d'une fiche de connaissance client)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"MARIE\",\n  \"nombreEnfants\": 1,\n  \"id\": \"8a9204f5-aa42-47bc-9f04-17caab5deeee\",\n  \"ligne2\": \"48 rue bauducheu\"\n}"
+						},
+						{
+							"name": "Invalid Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						},
+						{
+							"name": "Access forbidden",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						},
+						{
+							"name": "Access denied",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						},
+						{
+							"name": "Conflict",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nom\": \"Test Abc\",\n  \"prenom\": \"Test Abc\",\n  \"ligne1\": \"48 rue bauducheu\",\n  \"codePostal\": \"33800\",\n  \"ville\": \"Test Abc\",\n  \"situationFamilialle\": \"CELIBATAIRE\",\n  \"nombreEnfants\": 1,\n  \"ligne2\": \"48 rue bauducheu\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/connaissance-clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"connaissance-clients"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"status\": 32852506,\n  \"details\": [\n    \"exercitation eu ex qui\",\n    \"adipisicing tempor minim ipsum\"\n  ],\n  \"path\": \"anim Excepteur\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}

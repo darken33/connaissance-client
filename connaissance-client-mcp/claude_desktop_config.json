@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "connaissance-client": {
+      "command": "python",
+      "args": [
+        "/home/pbousquet/Workspaces/SQLI/POC/signoz/connaissance-client/connaissance-client-mcp/server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "/home/pbousquet/Workspaces/SQLI/POC/signoz/connaissance-client/connaissance-client-mcp/.venv/lib/python3.12/site-packages"
+      }
+    }
+  }
+}

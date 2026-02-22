@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connaissance-client
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: connaissance-client
+      app.kubernetes.io/instance: connaissance-client
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: connaissance-client
+        app.kubernetes.io/instance: connaissance-client
+    spec:
+      securityContext:
+        {}
+      containers:
+        - name: connaissance-client
+          image: "localhost:5000/connaissance-client:latest"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"          
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          command: ["java","-jar","/app/connaissance-client.jar"]
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 17
+            periodSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 17
+            periodSeconds: 1
+          securityContext:
+            privileged: true
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1

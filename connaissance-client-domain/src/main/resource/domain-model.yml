@@ -1,0 +1,219 @@
+apiVersion: "v3.1.0"
+kind: "DataContract"
+id: "cclien-domain"
+version: "0.0.1"
+status: "draft"
+name: "Domaine Connaissance Client"
+schema:
+  - name: "Nom"
+    businessName: ""
+    description: "Type représentant le nom d'un client"
+    type: "object"
+    properties:
+      - name: "value"
+        logicalType: "string"
+        description: "Type rprésentant le nom d'un client"
+        examples:
+          - "Bousquet"
+          - "Martin"
+          - "Dupond"
+        businessName: "Value Type Nom"
+        physicalName: "value"
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-zA-Z ,.'-]+$"
+        required: true
+  - name: "Prenom"
+    businessName: ""
+    description: "Type représentant le prénom d'un client"
+    type: "object"
+    properties:
+      - name: "value"
+        logicalType: "string"
+        description: "Type représentant le prénom d'un client"
+        businessName: "Value Type préonom"
+        physicalName: "value"
+        examples:
+          - "Philippe"
+          - "Marie"
+          - "Jean"
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-zA-Z ,.'-]+$"
+        required: true
+  - name: "Client"
+    businessName: ""
+    description: "Fiche client"
+    type: "object"
+    properties:
+      - name: id
+        logicalType: string
+        format: UUID
+        description: Identifiant unique du client au format UUID
+        businessName: identifiant du client
+        primaryKey: true
+        required: true
+        unique: true
+        physicalName: id
+        examples:
+          - 8a9204f5-aa42-47bc-9f04-17caab5deeee
+      - name: "nom"
+        logicalType: "object"
+        description: "Nom du client"
+        businessName: "Nom du client"
+        physicalName: "nom"
+        examples:
+          - "Bousquet"
+          - "Martin"
+          - "Dupond"
+        $ref: "#/schema/0"
+        required: true
+      - name: "prenom"
+        logicalType: "object"
+        required: true
+        primaryKey: false
+        examples:
+          - "Philippe"
+          - "Marie"
+          - "Jean"
+        $ref: "#/schema/1"
+        businessName: "Prénom du client"
+        physicalName: "prenom"
+        description: "Prénom du client"
+      - name: "adresse"
+        logicalType: "object"
+        description: "Adresse du client"
+        businessName: "Adresse du client"
+        physicalName: "adresse"
+        required: true
+        $ref: "#/schema/5"
+      - name: "situationFamiliale"
+        logicalType: "string"
+        enum:
+        - "CELIBATAIRE"
+        - "MARIE"
+        - "PACSE"
+        - "DIVORCE"
+        - "VEUF"
+        examples:
+        - "CELIBATAIRE"
+        - "MARIE"
+        - "DIVORCE"
+        - "VEUF"
+        - "PACSE"
+        description: "Situation familiale du client"
+        businessName: "Situation familiale du client"
+        physicalName: "situationFamiliale"
+        required: true
+      - name: "nombreEnfants"
+        logicalType: "integer"
+        description: "Nombre d'enfants du client"
+        businessName: "Nombre d'enfants du client"
+        physicalName: "nombreEnfants"
+        examples:
+          - 0
+          - 2
+          - 3
+        logicalTypeOptions:
+          minimum: 0
+          maximum: 20
+        required: true
+  - name: "LigneAdresse"
+    businessName: ""
+    description: "Type représentant une ligne d'adresse"
+    type: "object"
+    properties:
+      - name: "value"
+        logicalType: "string"
+        description: "Type représentant une ligne d'adresse"
+        businessName: "Ligne Adresse"
+        physicalName: "value"
+        examples:
+          - "48, rue bauducheu"
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-zA-Z ,.'-]+$"
+        required: true
+  - name: "CodePostal"
+    businessName: ""
+    description: "Type représentant un code postal"
+    type: "object"
+    properties:
+      - name: "value"
+        logicalType: "string"
+        description: "Type représentant un code postal"
+        businessName: "Code Postal"
+        physicalName: "value"
+        examples:
+          - "33800"
+          - "12000"
+        logicalTypeOptions:
+          minLength: 5
+          maxLength: 5
+          pattern: "^[A-Z0-9]+$"
+        required: true
+  - name: "Ville"
+    businessName: ""
+    description: "Type représentant une ville"
+    type: "object"
+    properties:
+      - name: "value"
+        logicalType: "string"
+        description: "Type représentant un code postal"
+        examples:
+          - "Bordeaux"
+          - "Rodez"
+          - "Albi"
+        businessName: "Ville"
+        physicalName: "value"
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-zA-Z ,.'-]+$"
+        required: true
+  - name: "Adresse"
+    businessName: ""
+    description: "Type représentant une adresse"
+    type: "object"
+    properties:
+      - name: "ligne1"
+        logicalType: "object"
+        description: "Ligne 1 d'adresse du client"
+        businessName: "Adresse ligne 1"
+        physicalName: "ligne1"
+        examples:
+          - "48, rue bauducheu"
+        required: true
+        $ref: "#/schema/3"
+      - name: "ligne2"
+        logicalType: "object"
+        description: "Ligne 2 d'adresse du client"
+        businessName: "Ligne 2 d'adresse du client"
+        examples:
+          - "2eme etage"
+        required: false
+        $ref: "#/schema/3"
+      - name: "codePostal"
+        logicalType: "object"
+        description: "Code Postal du client"
+        businessName: "Code Postal"
+        physicalName: "codePostal"
+        examples:
+          - "33800"
+          - "12000"
+        required: true
+        $ref: "#/schema/4"
+      - name: "ville"
+        logicalType: "object"
+        description: "Ville du client"
+        businessName: "Ville du client"
+        examples:
+          - "Bordeaux"
+          - "Rodez"
+          - "Albi"
+        physicalName: "ville"
+        required: true
+        $ref: "#/schema/5"

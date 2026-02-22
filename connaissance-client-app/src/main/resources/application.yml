@@ -1,0 +1,92 @@
+version: 1.0.0
+jwt:
+  url-public-key: http://localhost:8090/realms/master/protocol/openid-connect/certs
+spring:
+  data:
+    mongodb:
+      repositories:
+        type: none  
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        send-adresse-message-out-0:
+          destination: event.adresse.v1
+  mongodb.database: admin
+  mongodb.uri: mongodb://mongoadmin:secret@localhost:27017
+#  main:
+#    banner-mode: "off"
+logging:
+  level: 
+    root: info
+    "[com.sqli.workshop.ddd]": debug
+server:
+  port: 8080
+springdoc:
+  show-actuator: false
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+    prometheus: 
+      access: unrestricted
+  endpoint.health.probes.enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        resilience4j.circuitbreaker.calls: true
+    tags:
+      application: ${spring.application.name:connaissance-client}
+      environment: ${ENVIRONMENT:local}
+  prometheus.metrics.export.enabled: true
+# Circuit Breaker configuration for API IGN
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - org.springframework.web.client.ResourceAccessException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+    instances:
+      apiIgn:
+        baseConfig: default
+        failureRateThreshold: 30
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 3s
+        waitDurationInOpenState: 60s
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+    instances:
+      apiIgn:
+        timeoutDuration: 3s
+spring.web.error.include-binding-errors: always
+spring.web.error.include-exception: false
+spring.web.error.include-message: always
+spring.web.error.include-stacktrace: never    	    

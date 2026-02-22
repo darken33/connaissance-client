@@ -1,0 +1,127 @@
+apiVersion: v3.1.0
+kind: DataContract
+id: cclient-db
+version: 0.0.1
+status: draft
+name: Connaissance Client DB
+schema:
+  - name: connaissanceclient
+    businessName: "Fiche Connaissance Client"
+    description: Collection MongoDB pour Connaissance Client
+    type: json
+    properties:
+      - name: id
+        logicalType: string
+        description: Identifiant unique du client au format UUID
+        businessName: identifiant du client
+        primaryKey: true
+        required: true
+        unique: true
+        physicalName: id
+        examples:
+          - 8a9204f5-aa42-47bc-9f04-17caab5deeee
+      - name: nom
+        logicalType: string
+        description: Nom du client
+        examples:
+          - Bousquet
+          - Martin
+          - Dupond
+        businessName: Nom du client
+        physicalName: nom
+        required: true
+        logicalTypeOptions:
+          pattern: ^[a-zA-Z ,.'-]+$
+          minLength: 2
+          maxLength: 50
+      - name: prenom
+        logicalType: string
+        description: Prénom du client
+        businessName: Prénom du client
+        physicalName: prenom
+        examples:
+          - philippe
+          - marie
+          - jean
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: ^[a-zA-Z ,.'-]+$
+        required: true
+      - name: ligne1
+        logicalType: string
+        description: 1 ère ligne d'adresse du client
+        businessName: Adresse ligne 1
+        physicalName: ligne1
+        examples:
+          - 48, rue bauducheu
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: ^[a-zA-Z0-9 ,.'-]+$
+        required: true
+      - name: ligne2
+        logicalType: string
+        description: 2 ème ligne d'adresse du client (optionelle)
+        businessName: Adresse ligne 2
+        physicalName: ligne2
+        examples:
+          - 2eme etage
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: ^[a-zA-Z0-9 ,.'-]+$
+        required: false
+      - name: codePostal
+        logicalType: string
+        description: Adresse code postal du client
+        businessName: Adresse code postal du client
+        physicalName: codePostal
+        examples:
+          - "33800"
+          - "12000"
+        required: true
+        logicalTypeOptions:
+          minLength: 5
+          maxLength: 5
+          pattern: ^[A-Z0-9]+$
+      - name: ville
+        logicalType: string
+        description: Adresse ville du client (doit correspondre au codePostal)
+        examples:
+          - Bordeaux
+          - Rodez
+          - Albi
+        businessName: Adresse ville du client
+        physicalName: ville
+        required: true
+        logicalTypeOptions:
+          minLength: 2
+          maxLength: 50
+          pattern: ^[a-zA-Z ,.'-]+$
+      - name: situationFamiliale
+        logicalType: string
+        description: Situation Familiale du client
+        businessName: Situation Familiale du client
+        physicalName: situationFamiliale
+        examples:
+          - CELIBATAIRE
+          - MARIE
+          - DIVORCE
+          - VEUF
+          - PACSE
+        required: true
+        logicalTypeOptions:
+          format: enum [CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE]
+      - name: nombreEnfants
+        logicalType: integer
+        description: Nombre d'enfants du client
+        businessName: Nombre d'enfants du client
+        physicalName: nombreEnfants
+        examples:
+          - "0"
+          - "2"
+        logicalTypeOptions:
+          minimum: 0
+          maximum: 20
+        required: true

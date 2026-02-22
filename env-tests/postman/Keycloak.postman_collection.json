@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "4853410f-6a62-485f-a5a8-02b03cef4370",
+		"name": "Keycloak",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Keycloack token by user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "connaissance-client",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "knJixridM736CFuQmUl4Prnecn2nmMmM",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "fifi",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "**********",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						},
+						{
+							"key": "resource",
+							"value": "https://apim.lpl-cloud.com/oat/wishlistplatform-mw-mba",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "requested_token_use",
+							"value": "on_behalf_of",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8090/realms/master/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8090",
+					"path": [
+						"realms",
+						"master",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

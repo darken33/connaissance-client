@@ -1,0 +1,723 @@
+openapi: 3.0.1
+info:
+  title: Connaissance Client API
+  description: |
+    API REST permettant la gestion complète des fiches de connaissance client.
+    
+    Cette API offre les fonctionnalités suivantes :
+    - Création et consultation des fiches clients
+    - Gestion des adresses et situations familiales
+    - Suppression sécurisée des données
+    
+    **Authentification** : Requiert un token JWT Bearer valide
+    **Format** : Toutes les données sont échangées au format JSON
+    **Encodage** : UTF-8
+    
+    **Version 2.1.0** : Ajout des endpoints PATCH pour modifications partielles (bonnes pratiques REST)
+  version: "2.1.0"
+  contact:
+    name: SQLI
+    url: http://sqli.com/
+    email: pbousquet@sqli.com
+  license:
+    name: Copyright (c) SQLI
+servers:
+  - url: http://localhost:8080/
+    description: DEV Server
+    variables: { }
+  - url: https://jenesaispas/
+    description: Azure Cloud
+    variables: { }
+tags:
+  - name: connaissanceclient
+    description: opérations de lecture / écriture sur les fiches de connaissance client
+security: [ ]
+#   - bearerAuth: [ ]
+paths:
+  '/v1/connaissance-clients':
+    get:
+      security: [ ]
+      tags:
+        - ConnaissanceClient
+      summary: Consultation de toutes les fiches de connaissance client
+      operationId: getConnaissanceClients
+      description: |
+        Récupère la liste complète des fiches de connaissance client disponibles.
+        
+        **Cas d'usage :**
+        - Affichage de la liste des clients pour sélection
+        - Export des données clients
+        - Recherche globale dans la base clients
+        
+        **Réponse :**
+        - Retourne un tableau de fiches clients avec toutes leurs informations
+        - Liste vide si aucun client n'est enregistré
+        
+        **Performance :**
+        - Limite recommandée : utiliser la pagination pour de gros volumes
+        - Temps de réponse typique : < 2 secondes
+      responses:
+        200:
+          description: Réponse pour une requête valide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnaissanceClients'
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        401:
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        403:
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+    post:
+      tags:
+        - ConnaissanceClient
+      summary: Création d'une nouvelle fiche de connaissance client
+      operationId: saveConnaissanceClient
+      description: |
+        Crée une nouvelle fiche de connaissance client dans le système.
+        
+        **Cas d'usage :**
+        - Enregistrement d'un nouveau client lors de l'onboarding
+        - Import de données clients depuis un système externe
+        - Saisie manuelle par un conseiller
+        
+        **Validation :**
+        - Tous les champs obligatoires doivent être fournis
+        - Le format des données est vérifié (email, code postal, etc.)
+        - La cohérence des informations familiales est contrôlée
+        
+        **Résultat :**
+        - La fiche créée est retournée avec son ID généré
+        - Un événement de création est émis pour notification
+        
+        **Règles métier :**
+        - Un client ne peut avoir qu'une seule fiche active
+        - Les informations personnelles sont chiffrées en base
+      responses:
+        201:
+          description: Réponse pour une requête valide (création ou mise à jour d'une fiche de connaissance client)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnaissanceClient'
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        401:
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        403:
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnaissanceClientIn'
+        description: La fiche de connaissance client à enregister
+  '/v1/connaissance-clients/{id}':
+    get:
+      tags:
+        - ConnaissanceClient
+      summary: Consultation d'une fiche de connaissance client spécifique
+      operationId: getConnaissanceClient
+      description: |
+        Récupère une fiche de connaissance client spécifique via son identifiant unique.
+        
+        **Cas d'usage :**
+        - Affichage du détail d'un client pour consultation
+        - Pré-remplissage de formulaires de modification
+        - Vérification des informations avant mise à jour
+        - Export des données d'un client spécifique
+        
+        **Sécurité :**
+        - Seuls les utilisateurs autorisés peuvent accéder aux données
+        - Les données sensibles sont déchiffrées à la volée
+        - Audit trail automatique de l'accès aux données
+        
+        **Performance :**
+        - Cache activé pour 5 minutes sur les données peu modifiées
+        - Temps de réponse typique : < 100ms
+      parameters:
+        - in: path
+          name: id
+          description: |
+            Identifiant unique de la fiche de connaissance client au format UUID.
+            Cet identifiant est généré automatiquement lors de la création.
+          required: true
+          schema:
+            type: string
+            example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+            format: UUID
+      responses:
+        200:
+          description: Réponse pour une requête valide (retour d'une fiche de connaissance client)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnaissanceClient'
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Unexpected server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+    delete:
+      tags:
+        - ConnaissanceClient
+      summary: Suppression définitive d'une fiche de connaissance client
+      operationId: deleteConnaissanceClient
+      description: |
+        Supprime définitivement une fiche de connaissance client du système.
+        
+        **⚠️ ATTENTION : Opération irréversible**
+        
+        **Cas d'usage :**
+        - Suppression demandée par le client (RGPD/droit à l'oubli)
+        - Nettoyage de données de test ou doublons
+        - Archivage avec suppression des données sensibles
+        
+        **Contrôles de sécurité :**
+        - Vérification des droits de suppression
+        - Audit trail obligatoire avec traçabilité
+        - Confirmation requise pour les comptes actifs
+        
+        **Impact :**
+        - Suppression en cascade des données liées
+        - Notification automatique aux systèmes dépendants
+        - Archive des métadonnées pour audit (sans données personnelles)
+        
+        **Réglementation :**
+        - Conforme RGPD pour le droit à l'oubli
+        - Respect des délais de conservation légaux
+      parameters:
+        - in: path
+          name: id
+          description: |
+            Identifiant unique de la fiche à supprimer au format UUID.
+            La fiche doit exister et être accessible à l'utilisateur.
+          required: true
+          schema:
+            type: string
+            example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+            format: UUID
+      responses:
+        200:
+            description: Suppression de la fiche effectuée
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Unexpected server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  '/v1/connaissance-clients/{id}/adresse':
+    patch:
+      tags:
+        - ConnaissanceClient
+      summary: Modification partielle de l'adresse du client (recommandé)
+      operationId: modifierAdresse
+      description: |
+        Modifie uniquement l'adresse d'une fiche de connaissance client existante.
+        
+        **✅ Bonnes pratiques REST** : PATCH est le verbe recommandé pour les modifications partielles.
+        
+        **Cas d'usage :**
+        - Déménagement du client
+        - Correction d'une adresse erronée
+        - Mise à jour suite à un changement de domicile
+        
+        **Validation :**
+        - Le client doit exister (erreur 404 sinon)
+        - L'adresse est validée via l'API IGN (code postal/ville cohérents)
+        - En cas d'échec de validation externe, erreur 422
+        
+        **Comportement :**
+        - Seule l'adresse est modifiée (nom, prénom, situation inchangés)
+        - Un événement Kafka est publié pour notifier le changement d'adresse
+        - Audit trail avec traçabilité complète
+        - Validation externe avec circuit breaker (résilience)
+        
+        **Performance :**
+        - Temps de réponse typique : < 2s (avec validation API IGN)
+        - Circuit breaker actif pour l'API IGN (3 échecs → skip 60s)
+      parameters:
+        - in: path
+          name: id
+          description: |
+            Identifiant unique de la fiche client au format UUID.
+            La fiche doit exister et être accessible à l'utilisateur.
+          required: true
+          schema:
+            type: string
+            example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+            format: UUID
+      requestBody:
+        required: true
+        description: |
+          La nouvelle adresse du client.
+          Tous les champs obligatoires doivent être fournis (ligne1, codePostal, ville).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Adresse'
+            examples:
+              changementAdresseSimple:
+                summary: Changement d'adresse sans ligne 2
+                value:
+                  ligne1: "10 rue de la Paix"
+                  codePostal: "75002"
+                  ville: "Paris"
+              changementAdresseComplet:
+                summary: Changement d'adresse avec ligne 2
+                value:
+                  ligne1: "25 avenue des Champs-Elysees"
+                  ligne2: "Batiment B, Etage 3"
+                  codePostal: "75008"
+                  ville: "Paris"
+      responses:
+        '200':
+          description: |
+            Adresse modifiée avec succès.
+            Retourne la fiche client complète avec la nouvelle adresse.
+            Un événement Kafka a été publié pour notifier le changement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnaissanceClient'
+              examples:
+                adresseModifiee:
+                  summary: Fiche client avec nouvelle adresse
+                  value:
+                    id: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+                    nom: "Dupont"
+                    prenom: "Jean"
+                    adresse:
+                      ligne1: "10 rue de la Paix"
+                      codePostal: "75002"
+                      ville: "Paris"
+                    situationFamiliale: "CELIBATAIRE"
+                    nombreEnfants: 0
+        '400':
+          description: |
+            Requête invalide.
+            - Format JSON incorrect
+            - Champ obligatoire manquant (ligne1, codePostal, ville)
+            - Format de code postal invalide (doit être 5 chiffres)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                champManquant:
+                  summary: Champ obligatoire manquant
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 400
+                    error: "Bad Request"
+                    message: "Le champ 'codePostal' est obligatoire"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/adresse"
+        '404':
+          description: |
+            Client introuvable.
+            Aucune fiche client n'existe avec cet identifiant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                clientInconnu:
+                  summary: Client inexistant
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 404
+                    error: "Not Found"
+                    message: "Client with ID 8a9204f5-aa42-47bc-9f04-17caab5deeee not found"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/adresse"
+        '422':
+          description: |
+            Adresse invalide.
+            Le code postal et la ville ne correspondent pas (validation API IGN échouée).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                adresseInvalide:
+                  summary: Code postal/ville incohérents
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 422
+                    error: "Unprocessable Entity"
+                    message: "Invalid address: code postal '99999' does not match city 'Paris'"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/adresse"
+        '500':
+          description: |
+            Erreur serveur inattendue.
+            Une erreur interne s'est produite lors du traitement de la requête.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  '/v1/connaissance-clients/{id}/situation':
+    patch:
+      tags:
+        - ConnaissanceClient
+      summary: Modification partielle de la situation familiale (recommandé)
+      operationId: modifierSituation
+      description: |
+        Modifie uniquement la situation familiale et le nombre d'enfants d'un client existant.
+        
+        **✅ Bonnes pratiques REST** : PATCH est le verbe recommandé pour les modifications partielles.
+        
+        **Cas d'usage :**
+        - Changement d'état civil (mariage, divorce, veuvage)
+        - Naissance ou adoption d'enfant(s)
+        - Mise à jour suite à un événement de vie
+        - Correction d'informations familiales erronées
+        
+        **Validation :**
+        - Le client doit exister (erreur 404 sinon)
+        - La situation familiale doit être valide (CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE)
+        - Le nombre d'enfants doit être entre 0 et 20
+        - Cohérence métier : un célibataire peut avoir des enfants
+        
+        **Comportement :**
+        - Seule la situation familiale est modifiée (nom, prénom, adresse inchangés)
+        - Aucun événement Kafka n'est publié (pas de changement d'adresse)
+        - Audit trail avec traçabilité complète
+        - Opération transactionnelle
+        
+        **Règles métier :**
+        - Un client célibataire peut avoir des enfants (garde alternée, adoption, etc.)
+        - Le nombre d'enfants peut être 0 même si marié
+        - La situation PACSE est acceptée (Pacte Civil de Solidarité)
+        
+        **Performance :**
+        - Temps de réponse typique : < 100ms
+        - Pas de validation externe requise
+      parameters:
+        - in: path
+          name: id
+          description: |
+            Identifiant unique de la fiche client au format UUID.
+            La fiche doit exister et être accessible à l'utilisateur.
+          required: true
+          schema:
+            type: string
+            example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+            format: UUID
+      requestBody:
+        required: true
+        description: |
+          La nouvelle situation familiale du client.
+          Tous les champs doivent être fournis (situationFamiliale, nombreEnfants).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Situation'
+            examples:
+              mariage:
+                summary: Passage de célibataire à marié
+                value:
+                  situationFamiliale: "MARIE"
+                  nombreEnfants: 0
+              naissanceEnfant:
+                summary: Naissance d'un enfant
+                value:
+                  situationFamiliale: "MARIE"
+                  nombreEnfants: 2
+              divorce:
+                summary: Divorce avec garde d'enfants
+                value:
+                  situationFamiliale: "DIVORCE"
+                  nombreEnfants: 2
+              pacse:
+                summary: PACS avec enfants
+                value:
+                  situationFamiliale: "PACSE"
+                  nombreEnfants: 1
+      responses:
+        '200':
+          description: |
+            Situation familiale modifiée avec succès.
+            Retourne la fiche client complète avec la nouvelle situation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnaissanceClient'
+              examples:
+                situationModifiee:
+                  summary: Fiche client avec nouvelle situation
+                  value:
+                    id: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+                    nom: "Dupont"
+                    prenom: "Jean"
+                    adresse:
+                      ligne1: "12 rue Victor Hugo"
+                      codePostal: "33000"
+                      ville: "Bordeaux"
+                    situationFamiliale: "MARIE"
+                    nombreEnfants: 2
+        '400':
+          description: |
+            Requête invalide.
+            - Format JSON incorrect
+            - Champ obligatoire manquant
+            - Situation familiale invalide (doit être CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE)
+            - Nombre d'enfants invalide (doit être entre 0 et 20)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                situationInvalide:
+                  summary: Situation familiale invalide
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 400
+                    error: "Bad Request"
+                    message: "Invalid situationFamiliale: 'UNKNOWN'. Must be one of: CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/situation"
+                nombreEnfantsInvalide:
+                  summary: Nombre d'enfants hors limites
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 400
+                    error: "Bad Request"
+                    message: "nombreEnfants must be between 0 and 20, got: 25"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/situation"
+        '404':
+          description: |
+            Client introuvable.
+            Aucune fiche client n'existe avec cet identifiant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                clientInconnu:
+                  summary: Client inexistant
+                  value:
+                    timestamp: "2025-12-23T10:30:45.123Z"
+                    status: 404
+                    error: "Not Found"
+                    message: "Client with ID 8a9204f5-aa42-47bc-9f04-17caab5deeee not found"
+                    path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/situation"
+        '500':
+          description: Unexpected server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          example: "2017-07-21T17:32:28.437+00:00"
+          format: date-time
+        status:
+          type: integer
+          example: 400
+          format: int32
+        error:
+          type: string
+          example: "Bad Request"
+        message:
+          type: string
+          example: "Validation failed for object='connaissanceClientInDto'. Error count: 1"
+        path:
+          type: string
+          example: "/connaissance-clients"
+    ConnaissanceClients:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConnaissanceClient'
+    ConnaissanceClient:
+      type: object
+      required:
+        - nom
+        - prenom
+        - ligne1
+        - codePostal
+        - ville
+        - situationFamiliale
+        - nombreEnfants
+      properties:
+        id:
+          type: string
+          example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
+          format: UUID
+        nom:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Bousquet"
+        prenom:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Philippe"
+        ligne1:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "48 rue bauducheu"
+        ligne2:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "maison individuelle"
+        codePostal:
+          $ref: "#/components/schemas/CodePostal"
+        ville:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Bordeaux"
+        situationFamiliale:
+          $ref: "#/components/schemas/SituationFamiliale"
+        nombreEnfants:
+          $ref: "#/components/schemas/NombreEnfants"
+    ConnaissanceClientIn:
+      type: object
+      required:
+        - nom
+        - prenom
+        - ligne1
+        - codePostal
+        - ville
+        - situationFamiliale
+        - nombreEnfants
+      properties:
+        nom:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Bousquet"
+        prenom:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Philippe"
+        ligne1:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "48 rue bauducheu"
+        ligne2:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "maison individuelle"
+        codePostal:
+          $ref: "#/components/schemas/CodePostal"
+        ville:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Bordeaux"
+        situationFamiliale:
+          $ref: "#/components/schemas/SituationFamiliale"
+        nombreEnfants:
+          $ref: "#/components/schemas/NombreEnfants"
+    Adresse:
+      type: object
+      required:
+        - ligne1
+        - codePostal
+        - ville
+      properties:
+        ligne1:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "48 rue bauducheu"
+        ligne2:
+          $ref: "#/components/schemas/LigneAdresse"
+          example: "maison individuelle"
+        codePostal:
+          $ref: "#/components/schemas/CodePostal"
+        ville:
+          $ref: "#/components/schemas/ChaineAlpha"
+          example: "Bordeaux"
+    Situation:
+      type: object
+      required:
+        - situationFamiliale
+        - nombreEnfants
+      properties:
+        situationFamiliale:
+          $ref: "#/components/schemas/SituationFamiliale"
+        nombreEnfants:
+          $ref: "#/components/schemas/NombreEnfants"
+    ChaineAlpha:
+      type: string
+      minLength: 2
+      maxLength: 50
+      pattern: "^[a-zA-Z ,.'-]+$"
+      example: "Test Abc"
+    SituationFamiliale:
+      type: string
+      enum: [CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE]
+    LigneAdresse:
+      type: string
+      minLength: 2
+      maxLength: 50
+      pattern: "^[a-zA-Z0-9 ,.'-]+$"
+      example: "48 rue bauducheu"
+    CodePostal:
+      type: string
+      minLength: 5
+      maxLength: 5
+      pattern: "^[A-Z0-9]+$"
+      example: "33800"
+    NombreEnfants:
+      type: integer
+      minimum: 0
+      maximum: 20
+      example: 1  

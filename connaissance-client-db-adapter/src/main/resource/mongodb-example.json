@@ -1,0 +1,57 @@
+[
+  {
+    "id": "8a9204f5-aa42-47bc-9f04-17caab5deeee",
+    "nom": "Bousquet",
+    "prenom": "Philippe",
+    "ligne1": "48, rue Bauducheu",
+    "ligne2": "2ème étage",
+    "codePostal": "33800",
+    "ville": "Bordeaux",
+    "situationFamiliale": "MARIE",
+    "nombreEnfants": 2
+  },
+  {
+    "id": "7b8315e6-bb53-58cd-8e15-28dbb6cffff",
+    "nom": "Martin",
+    "prenom": "Marie",
+    "ligne1": "12, avenue de la République",
+    "ligne2": null,
+    "codePostal": "12000",
+    "ville": "Rodez",
+    "situationFamiliale": "CELIBATAIRE",
+    "nombreEnfants": 0
+  },
+  {
+    "id": "9c0426f7-cc64-69de-9f26-39ecc7d0000",
+    "nom": "Dupond",
+    "prenom": "Jean",
+    "ligne1": "5, place du Marché",
+    "ligne2": "Appartement 3B",
+    "codePostal": "81000",
+    "ville": "Albi",
+    "situationFamiliale": "DIVORCE",
+    "nombreEnfants": 3
+  },
+  {
+    "id": "1d1537g8-dd75-70ef-0g37-40fdd8e1111",
+    "nom": "Lefebvre",
+    "prenom": "Sophie",
+    "ligne1": "23, boulevard Victor Hugo",
+    "ligne2": null,
+    "codePostal": "31000",
+    "ville": "Toulouse",
+    "situationFamiliale": "PACSE",
+    "nombreEnfants": 1
+  },
+  {
+    "id": "2e2648h9-ee86-81fg-1h48-51gee9f2222",
+    "nom": "Moreau",
+    "prenom": "Pierre",
+    "ligne1": "78, rue de la Liberté",
+    "ligne2": "Résidence Les Pins",
+    "codePostal": "47000",
+    "ville": "Agen",
+    "situationFamiliale": "VEUF",
+    "nombreEnfants": 4
+  }
+]
