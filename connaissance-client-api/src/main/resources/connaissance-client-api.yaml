@@ -17,26 +17,21 @@ info:
   version: "2.1.0"
   contact:
     name: SQLI
-    url: http://sqli.com/
+    url: http://sqli.com
     email: pbousquet@sqli.com
   license:
     name: Copyright (c) SQLI
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8080
     description: DEV Server
     variables: { }
-  - url: https://jenesaispas/
-    description: Azure Cloud
-    variables: { }
 tags:
-  - name: connaissanceclient
+  - name: ConnaissanceClient
     description: opérations de lecture / écriture sur les fiches de connaissance client
 security: [ ]
-#   - bearerAuth: [ ]
 paths:
   '/v1/connaissance-clients':
     get:
-      security: [ ]
       tags:
         - ConnaissanceClient
       summary: Consultation de toutes les fiches de connaissance client
@@ -57,31 +52,31 @@ paths:
         - Limite recommandée : utiliser la pagination pour de gros volumes
         - Temps de réponse typique : < 2 secondes
       responses:
-        200:
+        "200":
           description: Réponse pour une requête valide
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConnaissanceClients'
-        400:
+        "400":
           description: Invalid Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        401:
+        "401":
           description: Access forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        403:
+        "403":
           description: Access denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        409:
+        "409":
           description: Conflict
           content:
             application/json:
@@ -113,31 +108,31 @@ paths:
         - Un client ne peut avoir qu'une seule fiche active
         - Les informations personnelles sont chiffrées en base
       responses:
-        201:
+        "201":
           description: Réponse pour une requête valide (création ou mise à jour d'une fiche de connaissance client)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConnaissanceClient'
-        400:
+        "400":
           description: Invalid Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        401:
+        "401":
           description: Access forbidden
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        403:
+        "403":
           description: Access denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        409:
+        "409":
           description: Conflict
           content:
             application/json:
@@ -185,25 +180,25 @@ paths:
             example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
             format: UUID
       responses:
-        200:
+        "200":
           description: Réponse pour une requête valide (retour d'une fiche de connaissance client)
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConnaissanceClient'
-        400:
+        "400":
           description: Invalid Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        404:
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        500:
+        "500":
           description: Unexpected server error
           content:
             application/json:
@@ -249,21 +244,21 @@ paths:
             example: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
             format: UUID
       responses:
-        200:
+        "200":
             description: Suppression de la fiche effectuée
-        400:
+        "400":
           description: Invalid Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        404:
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
-        500:
+        "500":
           description: Unexpected server error
           content:
             application/json:
@@ -350,13 +345,12 @@ paths:
                     id: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
                     nom: "Dupont"
                     prenom: "Jean"
-                    adresse:
-                      ligne1: "10 rue de la Paix"
-                      codePostal: "75002"
-                      ville: "Paris"
+                    ligne1: "10 rue de la Paix"
+                    codePostal: "75002"
+                    ville: "Paris"
                     situationFamiliale: "CELIBATAIRE"
                     nombreEnfants: 0
-        '400':
+        "400":
           description: |
             Requête invalide.
             - Format JSON incorrect
@@ -511,13 +505,12 @@ paths:
                     id: "8a9204f5-aa42-47bc-9f04-17caab5deeee"
                     nom: "Dupont"
                     prenom: "Jean"
-                    adresse:
-                      ligne1: "12 rue Victor Hugo"
-                      codePostal: "33000"
-                      ville: "Bordeaux"
+                    ligne1: "12 rue Victor Hugo"
+                    codePostal: "33000"
+                    ville: "Bordeaux"
                     situationFamiliale: "MARIE"
                     nombreEnfants: 2
-        '400':
+        "400":
           description: |
             Requête invalide.
             - Format JSON incorrect
@@ -545,7 +538,7 @@ paths:
                     error: "Bad Request"
                     message: "nombreEnfants must be between 0 and 20, got: 25"
                     path: "/v1/connaissance-clients/8a9204f5-aa42-47bc-9f04-17caab5deeee/situation"
-        '404':
+        "404":
           description: |
             Client introuvable.
             Aucune fiche client n'existe avec cet identifiant.
@@ -569,11 +562,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
     ApiErrorResponse:
       type: object
@@ -616,21 +604,16 @@ components:
           format: UUID
         nom:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Bousquet"
         prenom:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Philippe"
         ligne1:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "48 rue bauducheu"
         ligne2:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "maison individuelle"
         codePostal:
           $ref: "#/components/schemas/CodePostal"
         ville:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Bordeaux"
         situationFamiliale:
           $ref: "#/components/schemas/SituationFamiliale"
         nombreEnfants:
@@ -648,21 +631,16 @@ components:
       properties:
         nom:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Bousquet"
         prenom:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Philippe"
         ligne1:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "48 rue bauducheu"
         ligne2:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "maison individuelle"
         codePostal:
           $ref: "#/components/schemas/CodePostal"
         ville:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Bordeaux"
         situationFamiliale:
           $ref: "#/components/schemas/SituationFamiliale"
         nombreEnfants:
@@ -676,15 +654,12 @@ components:
       properties:
         ligne1:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "48 rue bauducheu"
         ligne2:
           $ref: "#/components/schemas/LigneAdresse"
-          example: "maison individuelle"
         codePostal:
           $ref: "#/components/schemas/CodePostal"
         ville:
           $ref: "#/components/schemas/ChaineAlpha"
-          example: "Bordeaux"
     Situation:
       type: object
       required:
@@ -700,7 +675,7 @@ components:
       minLength: 2
       maxLength: 50
       pattern: "^[a-zA-Z ,.'-]+$"
-      example: "Test Abc"
+      example: "Philippe"
     SituationFamiliale:
       type: string
       enum: [CELIBATAIRE, MARIE, DIVORCE, VEUF, PACSE]
