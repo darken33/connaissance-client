@@ -2,16 +2,11 @@ package com.sqli.workshop.ddd.connaissance.client.config;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
-import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,18 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * @author TODO
  */
 public class SecurityConfig {
-
-    @Value("${jwt.url-public-key}")
-    String urlPublicKey;
-
-    @Bean
-    JwtIssuerAuthenticationManagerResolver authenticationManagerResolver() {
-        return new JwtIssuerAuthenticationManagerResolver(k -> {
-            JwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(urlPublicKey).build();
-            JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(jwtDecoder);
-            return jwtAuthenticationProvider::authenticate;
-        });
-    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -55,8 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/v1/connaissance-clients").permitAll()
                         .requestMatchers(HttpMethod.POST,"/v1/connaissance-clients").permitAll()
                         .anyRequest().permitAll())
-                .oauth2ResourceServer(oauth2 -> oauth2.authenticationManagerResolver(authenticationManagerResolver()))
-				.headers(headers ->  headers.addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;")))
+    			.headers(headers ->  headers.addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;")))
 				.build();
     }
 
