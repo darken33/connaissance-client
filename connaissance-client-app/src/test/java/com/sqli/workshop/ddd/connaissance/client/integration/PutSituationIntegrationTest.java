@@ -12,7 +12,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,10 +31,10 @@ import com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationDt
 import tools.jackson.databind.ObjectMapper;
 
 /**
- * Integration tests for PATCH /v1/connaissance-clients/{id}/situation endpoint.
+ * Integration tests for PUT /v1/connaissance-clients/{id}/situation endpoint.
  * 
  * Tests the complete flow:
- * HTTP PATCH → ConnaissanceClientDelegate → ConnaissanceClientService → ClientRepository (MongoDB)
+ * HTTP PUT → ConnaissanceClientDelegate → ConnaissanceClientService → ClientRepository (MongoDB)
  * 
  * Verifies:
  * - DTO → Domain mapping
@@ -47,8 +47,8 @@ import tools.jackson.databind.ObjectMapper;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("Integration Tests - PATCH /situation")
-class PatchSituationIntegrationTest {
+@DisplayName("Integration Tests - PUT /situation")
+class PutSituationIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -80,15 +80,15 @@ class PatchSituationIntegrationTest {
     }
 
     @Test
-    @DisplayName("Given valid situation, PATCH should update and return full client (200)")
-    void given_valid_situation_patch_should_update_and_return_full_client() throws Exception {
+    @DisplayName("Given valid situation, PUT should update and return full client (200)")
+    void given_valid_situation_put_should_update_and_return_full_client() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.MARIE);
         situationDto.setNombreEnfants(2);
 
         // When
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto))
                         .header("X-Correlation-ID", "test-correlation-123"))
@@ -114,8 +114,8 @@ class PatchSituationIntegrationTest {
     }
 
     @Test
-    @DisplayName("Given unknown client ID, PATCH should return 404")
-    void given_unknown_client_patch_should_return_404() throws Exception {
+    @DisplayName("Given unknown client ID, PUT should return 404")
+    void given_unknown_client_put_should_return_404() throws Exception {
         // Given
         UUID unknownClientId = UUID.randomUUID();
         SituationDto situationDto = new SituationDto();
@@ -123,52 +123,52 @@ class PatchSituationIntegrationTest {
         situationDto.setNombreEnfants(1);
 
         // When/Then
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", unknownClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", unknownClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("Given invalid children count (negative), PATCH should return 400")
-    void given_invalid_children_count_negative_patch_should_return_400() throws Exception {
+    @DisplayName("Given invalid children count (negative), PUT should return 400")
+    void given_invalid_children_count_negative_put_should_return_400() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.MARIE);
         situationDto.setNombreEnfants(-1);
 
         // When/Then
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Given invalid children count (>20), PATCH should return 400")
-    void given_invalid_children_count_above_limit_patch_should_return_400() throws Exception {
+    @DisplayName("Given invalid children count (>20), PUT should return 400")
+    void given_invalid_children_count_above_limit_put_should_return_400() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.MARIE);
         situationDto.setNombreEnfants(25);
 
         // When/Then
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Given boundary value (0 children), PATCH should update correctly")
-    void given_boundary_value_zero_children_patch_should_update_correctly() throws Exception {
+    @DisplayName("Given boundary value (0 children), PUT should update correctly")
+    void given_boundary_value_zero_children_put_should_update_correctly() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.MARIE);
         situationDto.setNombreEnfants(0);
 
         // When
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isOk())
@@ -180,15 +180,15 @@ class PatchSituationIntegrationTest {
     }
 
     @Test
-    @DisplayName("Given boundary value (20 children), PATCH should update correctly")
-    void given_boundary_value_max_children_patch_should_update_correctly() throws Exception {
+    @DisplayName("Given boundary value (20 children), PUT should update correctly")
+    void given_boundary_value_max_children_put_should_update_correctly() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.MARIE);
         situationDto.setNombreEnfants(20);
 
         // When
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isOk())
@@ -200,15 +200,15 @@ class PatchSituationIntegrationTest {
     }
 
     @Test
-    @DisplayName("Given célibataire with children (business rule), PATCH should succeed")
-    void given_celibataire_with_children_patch_should_succeed() throws Exception {
+    @DisplayName("Given célibataire with children (business rule), PUT should succeed")
+    void given_celibataire_with_children_put_should_succeed() throws Exception {
         // Given - Business rule: célibataire can have children (garde alternée, adoption, etc.)
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.CELIBATAIRE);
         situationDto.setNombreEnfants(3);
 
         // When
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isOk())
@@ -222,15 +222,15 @@ class PatchSituationIntegrationTest {
     }
 
     @Test
-    @DisplayName("Given PACSE situation, PATCH should update correctly")
-    void given_pacse_situation_patch_should_update_correctly() throws Exception {
+    @DisplayName("Given PACSE situation, PUT should update correctly")
+    void given_pacse_situation_put_should_update_correctly() throws Exception {
         // Given
         SituationDto situationDto = new SituationDto();
         situationDto.setSituationFamiliale(com.sqli.workshop.ddd.connaissance.client.generated.api.model.SituationFamilialeDto.PACSE);
         situationDto.setNombreEnfants(1);
 
         // When
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/situation", testClientId)
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/situation", testClientId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(situationDto)))
                 .andExpect(status().isOk())
@@ -245,5 +245,5 @@ class PatchSituationIntegrationTest {
 
     // Note: NO Kafka event verification test here
     // Situation changes DO NOT publish Kafka events (per specification)
-    // This is the key difference with PATCH /adresse
+    // This is the key difference with PUT /adresse
 }

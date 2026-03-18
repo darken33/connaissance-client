@@ -265,15 +265,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
   '/v1/connaissance-clients/{id}/adresse':
-    patch:
+    put:
       tags:
         - ConnaissanceClient
-      summary: Modification partielle de l'adresse du client (recommandé)
+      summary: Modification complète de l'adresse du client (recommandé)
       operationId: modifierAdresse
       description: |
         Modifie uniquement l'adresse d'une fiche de connaissance client existante.
         
-        **✅ Bonnes pratiques REST** : PATCH est le verbe recommandé pour les modifications partielles.
+        **✅ Bonnes pratiques REST** : PUT est le verbe recommandé pour les modifications complètes (ici la ressource adresse).
         
         **Cas d'usage :**
         - Déménagement du client
@@ -412,15 +412,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
   '/v1/connaissance-clients/{id}/situation':
-    patch:
+    put:
       tags:
         - ConnaissanceClient
-      summary: Modification partielle de la situation familiale (recommandé)
+      summary: Modification complète de la situation familiale (recommandé)
       operationId: modifierSituation
       description: |
         Modifie uniquement la situation familiale et le nombre d'enfants d'un client existant.
         
-        **✅ Bonnes pratiques REST** : PATCH est le verbe recommandé pour les modifications partielles.
+        **✅ Bonnes pratiques REST** : PUT est le verbe recommandé pour les modifications complètes (ici la ressource situation).
         
         **Cas d'usage :**
         - Changement d'état civil (mariage, divorce, veuvage)

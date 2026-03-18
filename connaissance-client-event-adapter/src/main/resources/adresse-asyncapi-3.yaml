@@ -10,7 +10,7 @@ info:
 defaultContentType: application/json
 servers:
   local:
-    host: 10.33.38.97:9092
+    host: localhost:9092
     protocol: kafka
     tags:
       - name: local

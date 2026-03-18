@@ -6,16 +6,14 @@ spring:
     mongodb:
       repositories:
         type: none  
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
   cloud:
     stream:
       bindings:
         send-adresse-message-out-0:
           destination: event.adresse.v1
+      kafka:
+        binder:
+          brokers: 'localhost:9092'
   mongodb.database: admin
   mongodb.uri: mongodb://mongoadmin:secret@localhost:27017
 #  main:

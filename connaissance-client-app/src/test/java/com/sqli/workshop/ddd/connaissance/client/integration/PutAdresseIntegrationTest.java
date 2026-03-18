@@ -13,7 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,8 +35,8 @@ import com.sqli.workshop.ddd.connaissance.client.generated.event.producer.IDefau
 import tools.jackson.databind.ObjectMapper;
 
 /**
- * Integration tests for PATCH /v1/connaissance-clients/{id}/adresse endpoint
- * Tests end-to-end behavior: HTTP PATCH → Delegate → Domain Service → MongoDB → Kafka
+ * Integration tests for PUT /v1/connaissance-clients/{id}/adresse endpoint
+ * Tests end-to-end behavior: HTTP PUT → Delegate → Domain Service → MongoDB → Kafka
  * 
  * T022: Integration tests for modifierAdresse endpoint (RED phase - MUST FAIL)
  * These tests are written BEFORE implementation (TDD Red phase)
@@ -49,7 +49,7 @@ import tools.jackson.databind.ObjectMapper;
     "logging.level.com.sqli.workshop.ddd=DEBUG"
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class PatchAdresseIntegrationTest {
+class PutAdresseIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -112,7 +112,7 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_valid_address_patch_should_update_and_return_full_client() throws Exception {
+    void given_valid_address_put_should_update_and_return_full_client() throws Exception {
         // GIVEN - Valid address change
         AdresseDto adresseDto = new AdresseDto();
         adresseDto.setLigne1("25 avenue de la Republique");
@@ -120,11 +120,11 @@ class PatchAdresseIntegrationTest {
         adresseDto.setCodePostal("75011");
         adresseDto.setVille("Paris");
 
-        // WHEN - PATCH /adresse
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto))
-                .header("X-Correlation-ID", "test-patch-integration-001"))
+                .header("X-Correlation-ID", "test-put-integration-001"))
                 // THEN - Should return 200 with full client
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(existingClientId.toString()))
@@ -151,7 +151,7 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_unknown_client_patch_should_return_404() throws Exception {
+    void given_unknown_client_put_should_return_404() throws Exception {
         // GIVEN - Unknown client ID
         UUID unknownId = UUID.randomUUID();
         AdresseDto adresseDto = new AdresseDto();
@@ -159,8 +159,8 @@ class PatchAdresseIntegrationTest {
         adresseDto.setCodePostal("99999");
         adresseDto.setVille("Nowhere");
 
-        // WHEN - PATCH /adresse with unknown ID
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", unknownId)
+        // WHEN - PUT /adresse with unknown ID
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", unknownId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 404
@@ -168,15 +168,15 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_invalid_postal_code_format_patch_should_return_400() throws Exception {
+    void given_invalid_postal_code_format_put_should_return_400() throws Exception {
         // GIVEN - Invalid postal code format (not 5 digits)
         AdresseDto adresseDto = new AdresseDto();
         adresseDto.setLigne1("10 rue Test");
         adresseDto.setCodePostal("AB$12"); // Invalid format
         adresseDto.setVille("Paris");
 
-        // WHEN - PATCH /adresse with invalid postal code
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse with invalid postal code
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 400 (Bean Validation)
@@ -184,7 +184,7 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_ign_validation_failure_patch_should_return_422() throws Exception {
+    void given_ign_validation_failure_put_should_return_422() throws Exception {
         // GIVEN - Valid format but postal code/city mismatch (IGN validation will fail)
         // Simulate IGN validation failure for this test
         org.mockito.Mockito.when(codePostauxService.validateCodePostal(
@@ -196,8 +196,8 @@ class PatchAdresseIntegrationTest {
         adresseDto.setCodePostal("75001"); // Paris postal code
         adresseDto.setVille("Marseille"); // Marseille city (mismatch)
 
-        // WHEN - PATCH /adresse with postal code/city mismatch
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse with postal code/city mismatch
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 422 (Unprocessable Entity)
@@ -205,15 +205,15 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_address_change_patch_should_publish_kafka_event() throws Exception {
+    void given_address_change_put_should_publish_kafka_event() throws Exception {
         // GIVEN - Valid address change
         AdresseDto adresseDto = new AdresseDto();
         adresseDto.setLigne1("123 boulevard Haussmann");
         adresseDto.setCodePostal("75008");
         adresseDto.setVille("Paris");
 
-        // WHEN - PATCH /adresse
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 200
@@ -230,7 +230,7 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_optional_ligne2_patch_should_update_correctly() throws Exception {
+    void given_optional_ligne2_put_should_update_correctly() throws Exception {
         // GIVEN - Address with optional ligne2
         AdresseDto adresseDto = new AdresseDto();
         adresseDto.setLigne1("10 rue de la Paix");
@@ -238,8 +238,8 @@ class PatchAdresseIntegrationTest {
         adresseDto.setCodePostal("75001");
         adresseDto.setVille("Paris");
 
-        // WHEN - PATCH /adresse
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 200 with ligne2
@@ -254,7 +254,7 @@ class PatchAdresseIntegrationTest {
     }
 
     @Test
-    void given_circuit_breaker_open_patch_should_skip_ign_validation() throws Exception {
+    void given_circuit_breaker_open_put_should_skip_ign_validation() throws Exception {
         // GIVEN - Circuit breaker open (IGN API unavailable)
         // Note: This test requires simulating IGN API failures to open the circuit breaker
         // In a real scenario, we would use @MockBean for IGNValidationService
@@ -264,8 +264,8 @@ class PatchAdresseIntegrationTest {
         adresseDto.setCodePostal("33000");
         adresseDto.setVille("Bordeaux");
 
-        // WHEN - PATCH /adresse with circuit breaker open
-        mockMvc.perform(patch("/v1/connaissance-clients/{id}/adresse", existingClientId)
+        // WHEN - PUT /adresse with circuit breaker open
+        mockMvc.perform(put("/v1/connaissance-clients/{id}/adresse", existingClientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(adresseDto)))
                 // THEN - Should return 200 (skip validation, fallback behavior)
