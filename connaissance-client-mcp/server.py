@@ -91,7 +91,7 @@ def get_clients():
             - Temps de réponse typique : < 2s (avec validation API IGN) 
             - Circuit breaker actif pour l'API IGN (3 échecs → skip 60s)          
           """)
-def patch_address(id_client: str, new_address: Dict[str, Any]):
+def put_address(id_client: str, new_address: Dict[str, Any]):
     # Endpoint à adapter selon votre API (ex: /clients ou /connaissance-clients)
     url = f"{BASE_URL}/v1/connaissance-clients/{id_client}/adresse"
     body = {
@@ -104,7 +104,7 @@ def patch_address(id_client: str, new_address: Dict[str, Any]):
     
     headers = {"Content-Type": "application/json"}
 
-    response = httpx.patch(url, json=body, headers=headers)
+    response = httpx.put(url, json=body, headers=headers)
     response.raise_for_status()
     client = response.json()
     return client
@@ -152,7 +152,7 @@ def patch_address(id_client: str, new_address: Dict[str, Any]):
             - Temps de réponse typique : < 100ms 
             - Pas de validation externe requise
           """)
-def patch_situation_familiale(id_client: str, new_situation: Dict[str, Any]):
+def put_situation_familiale(id_client: str, new_situation: Dict[str, Any]):
     # Endpoint à adapter selon votre API (ex: /clients ou /connaissance-clients)
     url = f"{BASE_URL}/v1/connaissance-clients/{id_client}/situation"
     body = {
@@ -162,7 +162,7 @@ def patch_situation_familiale(id_client: str, new_situation: Dict[str, Any]):
     
     headers = {"Content-Type": "application/json"}
 
-    response = httpx.patch(url, json=body, headers=headers)
+    response = httpx.put(url, json=body, headers=headers)
     response.raise_for_status()
     client = response.json()
     return client
