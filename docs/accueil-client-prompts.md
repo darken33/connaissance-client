@@ -44,3 +44,15 @@ Une fois la tâche réalisée, rends moi la main afin que je valide ce que tu au
 /speckit.implement Implémente la phase 3, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu.​
 
 /speckit.implement Implémente le reste des phases, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu.​
+
+## Spécification du reste des écrans
+
+/speckit.specify Nous devons ajouter de nouveaux écrans (nous avons déjà la liste des clients, et le détail d'un client) affin de compléter l'application nous devons à minima créer les pages :
+
+* Création d'une fiche client
+* Modification du client (adresse, situation familiale, nom et prénom)
+* Suppression d'un client
+
+Pour rappel la spécification OpenApi du backend est décrit dans le fichier connaissance-client-api.yaml.
+
+Une fois la tâche réalisée, rends moi la main afin que je valide ce que tu auras rédigé.​
