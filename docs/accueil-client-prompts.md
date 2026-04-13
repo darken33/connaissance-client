@@ -23,6 +23,14 @@ Pour l'instant nous allons uniquement spécifier la page d'accueil qui doit pré
 ​
 Une fois la tâche réalisée, rends moi la main afin que je valide ce que tu auras rédigé.​
 
+## Spécifications Alternative
+
+/speckit.specify Nous disposons actuellement d'une application backend exposant des API REST définies dans le contrat OpenAPI (fichier `connaissance-client-api.yaml`). En tant qu'architecte technique et fonctionnel possédant de solides compétences en UX/UI, Tu dois spécifier une application frontend qui accède à tous les points de terminaison du contrat OpenAPI. ​
+
+Pour l'instant nous allons uniquement spécifier la page d'accueil qui doit présenter la liste des clients sous forme moderne (de préférence en mode carte) avec les informations suivantes : Nom, Prénom, Code Postal et Ville. Appuies toi sur la maquette d'écran fournie `maquette_accueil-client.png`. Peux-tu également me fournir des maquettes d'écran et un diagramme de séquence Front / Backend ? ​
+
+​Une fois la tâche réalisée, rends moi la main afin que je valide ce que tu auras rédigé.​
+
 ## Clarification​
 
 /speckit.clarify Clarifies la spécification ci-jointe si nécessaire.​
