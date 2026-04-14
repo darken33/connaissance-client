@@ -1,0 +1,55 @@
+curl -X 'POST' \
+  'http://localhost:8080/v1/connaissance-clients' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "nom": "Dupont",
+  "prenom": "Jean",
+  "ligne1": "1 rue de la paix",
+  "codePostal": "33000",
+  "ville": "Bordeaux",
+  "situationFamiliale": "CELIBATAIRE",
+  "nombreEnfants": 0
+}'
+---
+curl -X 'POST' \
+  'http://localhost:8080/v1/connaissance-clients' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "nom": "Martin",
+  "prenom": "Claire",
+  "ligne1": "10 rue du chapeau",
+  "codePostal": "12000",
+  "ville": "Rodez",
+  "situationFamiliale": "MARIE",
+  "nombreEnfants": 2
+}'
+---
+curl -X 'POST' \
+  'http://localhost:8080/v1/connaissance-clients' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "nom": "Bernard",
+  "prenom": "Luc",
+  "ligne1": "12 rue de millau",
+  "codePostal": "31000",
+  "ville": "Toulouse",
+  "situationFamiliale": "DIVORCE",
+  "nombreEnfants": 1
+}'
+---
+curl -X 'POST' \
+  'http://localhost:8080/v1/connaissance-clients' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "nom": "Legrand",
+  "prenom": "Alice",
+  "ligne1": "68 rue teyssier",
+  "codePostal": "81000",
+  "ville": "Albi",
+  "situationFamiliale": "CELIBATAIRE",
+  "nombreEnfants": 0
+}'

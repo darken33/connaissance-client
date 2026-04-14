@@ -47,11 +47,9 @@ Pour l'instant nous allons uniquement spécifier la page d'accueil qui doit pré
 
 /speckit.implement Implémente la phase 1, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu initial.​
 
-/speckit.implement Implémente la phase 2, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu.​
+/speckit.implement Lance l'implémentation par phase à partir de la liste des tasks, en suivant le plan et les spec.​
 
-/speckit.implement Implémente la phase 3, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu.​
-
-/speckit.implement Implémente le reste des phases, puis rend moi la main afin que je puisse valider, l'idéal serait de pouvoir lancer l'application pour voir le rendu.​
+/speckit.implement Parfait cela fonctionne, par contre le design n'est pas excellent, peux-tu me proposer un bandeau design pour le titre, et plus de couleur sur les cartes clients ?.​
 
 ## Spécification du reste des écrans
 
