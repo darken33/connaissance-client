@@ -15,9 +15,6 @@ spring:
     name: connaissance-client-api
     description: Connaissance Client API - Workshop Mode (In-Memory Storage)
 
-  profiles:
-    active: workshop
-
   # Spring Data MongoDB - disabled for workshop profile
   data:
     mongodb:

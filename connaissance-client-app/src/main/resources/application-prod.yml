@@ -13,9 +13,6 @@ spring:
     name: connaissance-client-api
     description: Connaissance Client API - Production Mode (MongoDB + Kafka)
 
-  profiles:
-    active: prod
-
   # Spring Data MongoDB Configuration
   data:
     mongodb:
