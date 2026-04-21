@@ -2,6 +2,7 @@ package com.sqli.workshop.ddd.connaissance.client.event;
 
 import java.util.UUID;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.sqli.workshop.ddd.connaissance.client.domain.models.types.Destinataire;
@@ -13,6 +14,11 @@ import com.sqli.workshop.ddd.connaissance.client.generated.event.producer.IDefau
 import lombok.AllArgsConstructor;
 
 @Component
+@ConditionalOnProperty(
+    name = "workshop.enabled",
+    havingValue = "false",
+    matchIfMissing = true  // Production is default
+)
 @AllArgsConstructor
 public class AdresseEventServiceImpl implements AdresseEventService {
     

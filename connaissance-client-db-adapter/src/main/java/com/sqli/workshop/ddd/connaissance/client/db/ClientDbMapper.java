@@ -1,5 +1,13 @@
 package com.sqli.workshop.ddd.connaissance.client.db;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.mapstruct.NullValueMappingStrategy;
+
 import com.sqli.workshop.ddd.connaissance.client.domain.enums.SituationFamiliale;
 import com.sqli.workshop.ddd.connaissance.client.domain.models.Client;
 import com.sqli.workshop.ddd.connaissance.client.domain.models.types.Adresse;
@@ -8,11 +16,6 @@ import com.sqli.workshop.ddd.connaissance.client.domain.models.types.LigneAdress
 import com.sqli.workshop.ddd.connaissance.client.domain.models.types.Nom;
 import com.sqli.workshop.ddd.connaissance.client.domain.models.types.Prenom;
 import com.sqli.workshop.ddd.connaissance.client.domain.models.types.Ville;
-
-import org.mapstruct.*;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
 /**

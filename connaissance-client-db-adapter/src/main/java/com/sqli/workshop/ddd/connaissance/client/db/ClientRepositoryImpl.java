@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.sqli.workshop.ddd.connaissance.client.domain.models.Client;
@@ -13,6 +14,11 @@ import com.sqli.workshop.ddd.connaissance.client.domain.ports.ClientRepository;
 import lombok.AllArgsConstructor;
 
 @Component
+@ConditionalOnProperty(
+    name = "workshop.enabled",
+    havingValue = "false",
+    matchIfMissing = true  // Production is default
+)
 @AllArgsConstructor
 /**
  * ClientRepositoryImpl - TODO: description

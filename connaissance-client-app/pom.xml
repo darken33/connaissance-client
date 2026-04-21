@@ -82,6 +82,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>4.0.1</version>
                 <configuration>
                     <mainClass>com.sqli.workshop.ddd.connaissance.client.ConnaissanceClientApplication</mainClass>
                 </configuration>
