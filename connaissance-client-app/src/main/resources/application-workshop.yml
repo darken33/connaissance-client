@@ -1,0 +1,50 @@
+# Application Configuration - Workshop Profile
+# 
+# Activated via: mvn spring-boot:run -Dspring.profiles.active=workshop
+#               OR -Dspring.profiles.active=dev
+#
+# In workshop mode:
+# - In-memory storage (ConcurrentHashMap for clients, event log for events)
+# - No MongoDB required
+# - No Kafka broker required
+# - Fast startup (< 10 seconds)
+# - Ideal for development and workshop environments
+
+spring:
+  application:
+    name: connaissance-client-api
+    description: Connaissance Client API - Workshop Mode (In-Memory Storage)
+
+  profiles:
+    active: workshop
+
+  # Spring Data MongoDB - disabled for workshop profile
+  data:
+    mongodb:
+      auto-index-creation: false  # No MongoDB in workshop mode
+
+  # Kafka broker configuration (not used by in-memory adapter, but needs placeholder)
+  kafka:
+    bootstrap-servers: localhost:9092  # Placeholder; not used by workshop adapter
+
+# Workshop Mode Feature Configuration
+workshop:
+  enabled: true  # Triggers @ConditionalOnProperty beans for in-memory adapters
+  initial-data: false  # Set to true to pre-populate example clients on startup
+  debug-endpoint: true  # Enable /actuator/workshop/state endpoint for debugging
+
+# Management Endpoints (Spring Actuator)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,workshop  # Include custom workshop endpoint
+
+# Logging Configuration
+logging:
+  level:
+    root: WARN
+    com.sqli.workshop.ddd: INFO
+    # Enable detailed logging for workshop-specific components if needed:
+    # com.sqli.workshop.ddd.connaissance.client.db.adapter: DEBUG
+    # com.sqli.workshop.ddd.connaissance.client.event.adapter: DEBUG

@@ -1,0 +1,62 @@
+# Application Configuration - Production Profile
+#
+# Activated via: mvn spring-boot:run -Dspring.profiles.active=prod
+#
+# In production mode:
+# - MongoDB persistence (configured via MONGODB_URI environment variable)
+# - Kafka event publishing (configured via KAFKA_BROKERS environment variable)
+# - Full resilience features (circuit breakers, retries)
+# - Production-grade load handling
+
+spring:
+  application:
+    name: connaissance-client-api
+    description: Connaissance Client API - Production Mode (MongoDB + Kafka)
+
+  profiles:
+    active: prod
+
+  # Spring Data MongoDB Configuration
+  data:
+    mongodb:
+      # URI format: mongodb://[username:password@]host[:port]/[database][?options]
+      # Use environment variable MONGODB_URI or fall back to localhost
+      uri: ${MONGODB_URI:mongodb://localhost:27017/connaissance-client}
+      auto-index-creation: true  # Auto-create indices on documents
+
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    producer:
+      acks: all  # Wait for all replicas to acknowledge
+      retries: 3  # Retry failed publishes
+      compression-type: snappy
+      properties:
+        retention.ms: 604800000  # 7 days retention
+
+# Workshop Mode Feature Configuration (disabled for production)
+workshop:
+  enabled: false  # Use MongoDB + Kafka adapters
+
+# Management Endpoints (Spring Actuator)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  
+  # Metrics configuration for production
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Logging Configuration (Production)
+logging:
+  level:
+    root: WARN
+    com.sqli.workshop.ddd: INFO
+    # Spring Data MongoDB logging
+    org.springframework.data.mongodb: INFO
+    # Kafka producer logging
+    org.apache.kafka.clients.producer: WARN
