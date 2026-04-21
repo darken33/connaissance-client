@@ -29,6 +29,8 @@ public interface ClientDbMapper {
     @Mapping(source = "adresse.ligne2", target = "ligne2", qualifiedByName = "mapLigne2")
     @Mapping(source = "adresse.codePostal.value", target = "codePostal")
     @Mapping(source = "adresse.ville.value", target = "ville")
+    @Mapping(source = "situationFamiliale", target = "situationFamiliale")
+    @Mapping(source = "nombreEnfants", target = "nombreEnfants")
     ClientDb mapFromDomain(Client cclient);
 
     default String mapLigneAdresse(LigneAdresse ligne) {
@@ -52,6 +54,10 @@ public interface ClientDbMapper {
     default String map(Optional<LigneAdresse> ligne) {
         if (ligne.isPresent()) return ligne.get().value();
         return null;
+    }
+
+    default String mapSituationFamiliale(SituationFamiliale situation) {
+        return (situation != null ? situation.name() : null);
     }
 
     default Client mapToDomain(ClientDb ClientDb) {

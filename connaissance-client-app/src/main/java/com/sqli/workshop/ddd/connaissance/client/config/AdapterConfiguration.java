@@ -3,11 +3,11 @@ package com.sqli.workshop.ddd.connaissance.client.config;
 import com.sqli.workshop.ddd.connaissance.client.db.ClientDbMapper;
 import com.sqli.workshop.ddd.connaissance.client.db.ClientDbRepository;
 import com.sqli.workshop.ddd.connaissance.client.db.ClientRepositoryImpl;
-// import com.sqli.workshop.ddd.connaissance.client.db.adapter.InMemoryClientRepositoryAdapter; // TODO: Created in T006
+import com.sqli.workshop.ddd.connaissance.client.db.adapter.InMemoryClientRepositoryAdapter;
 import com.sqli.workshop.ddd.connaissance.client.domain.ports.ClientRepository;
 import com.sqli.workshop.ddd.connaissance.client.domain.ports.AdresseEventService;
 import com.sqli.workshop.ddd.connaissance.client.event.AdresseEventServiceImpl;
-// import com.sqli.workshop.ddd.connaissance.client.event.adapter.InMemoryAdresseEventServiceImpl; // TODO: Created in T008
+import com.sqli.workshop.ddd.connaissance.client.event.adapter.InMemoryAdresseEventServiceImpl;
 import com.sqli.workshop.ddd.connaissance.client.generated.event.producer.IDefaultServiceEventsProducer;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -38,19 +38,15 @@ public class AdapterConfiguration {
      * In-Memory Client Repository (Workshop Profile)
      * Used when workshop.enabled=true
      * 
-     * TODO: Uncomment after T006 creates InMemoryClientRepositoryAdapter
-     * 
      * @param mapper ClientDbMapper for DTO conversions
      * @return InMemoryClientRepositoryAdapter instance
      */
-    /*
     @Bean
     @ConditionalOnProperty(name = "workshop.enabled", havingValue = "true")
     public ClientRepository inMemoryClientRepository(
             @NonNull ClientDbMapper mapper) {
         return new InMemoryClientRepositoryAdapter(mapper);
     }
-    */
 
     /**
      * MongoDB Client Repository (Production Profile)
@@ -81,17 +77,13 @@ public class AdapterConfiguration {
      * Captures events in-memory; not published to Kafka
      * Used when workshop.enabled=true
      * 
-     * TODO: Uncomment after T008 creates InMemoryAdresseEventServiceImpl
-     * 
      * @return InMemoryAdresseEventServiceImpl instance
      */
-    /*
     @Bean
     @ConditionalOnProperty(name = "workshop.enabled", havingValue = "true")
     public AdresseEventService inMemoryAdresseEventService() {
         return new InMemoryAdresseEventServiceImpl();
     }
-    */
 
     /**
      * Kafka Adresse Event Service (Production Profile)
